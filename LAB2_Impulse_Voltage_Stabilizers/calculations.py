@@ -6,7 +6,7 @@ Rload = 120 #Om
 f = 20000 #40'000 - 150'000 Hz
 LIR = 0.3
 R_L   = 0.2 #Om, Resistance of inductor
-
+print("------------------------------------")
 print("   INPUT  DATA    ")
 
 print("Uin       [V]: ", Uin)
@@ -16,7 +16,7 @@ print("Rload    [Om]: ", Rload)
 print("Freq    [1/s]: ", f)
 print("LIR          : ", LIR)
 print("R_ind    [Om]: ", R_L)
-
+print("------------------------------------")
 print("   OUTPUT DATA    ")
 #Ia = #average current
 #dIout = LIR * Ia
@@ -60,8 +60,29 @@ Iin = Uin / R_L #?????? 35 A too much
 print("Iin        [A]: ", Iin)
 
 #2.7 Минимальная ёмкость конденсатора
-Cout_min = (((Iin - Iout) * (T - t_imp)) / (absdUout))
-print("Cout_min  [uF]: ", Cout_min * 10 ** 6)
+#Cout_min = (((Iin - Iout) * (T - t_imp)) / (absdUout))
+#print("Cout_min  [uF]: ", Cout_min * 10 ** 6)
+#Cout = 2400 * 10**-6
+#print("Cout      [uF]: ", Cout * 10 ** 6)
 
-Cout = 2400 * 10**-6
-print("Cout      [uF]: ", Cout * 10 ** 6)
+print("------------------------------------")
+di1 = (Uin * D * T) / (L)
+di2 = ((Uin - Uout) * (1-D) * T) / (L)
+print("di1        [A]:  ", di1)
+print("di2        [A]: ", di2)
+
+if (-(10**-5) <= di1+di2 <= 10**-5):
+  print("\ndi1 + di2 = ", di1 + di2)
+  print("The law of conservation of energy is observed!\n")
+
+Imax = (LIR / (4 * di1)) + (di1 / 2)
+Imin = Imax - di1
+
+print("Imax       [A]:  ", Imax)
+print("Imin       [A]:  ", Imin)
+
+Cout_min2 = (((Imin + Imax) / 2) - Iload) * (T - t_imp) / (absdUout)
+
+print("Cout_min  [uF]: ", Cout_min2 * 10 ** 6)
+Cout2 = 51 * 10 **-6
+print("Cout      [uF]: ", Cout2 * 10 ** 6)
